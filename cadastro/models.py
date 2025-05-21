@@ -1,9 +1,14 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
+class StatusEnum(models.TextChoices):
+    PENDENTE = 'Pendente'
+    ANDAMENTO = 'Andamento'
+    CONCLUIDO = 'Concluido'
+
 
 class Endereco(models.Model):
-    cep = models.CharField(max_length=9)
+    cep = models.CharField(max_length=9, null=True, blank=True)
     logradouro = models.CharField(max_length=120)
     numero = models.CharField(max_length=10)
     complemento = models.CharField(max_length=30, null=True, blank=True)
@@ -20,10 +25,15 @@ class Ambiente(models.Model):
 class Cliente(models.Model):
     nome_razao_social = models.CharField(max_length=120)
     nome_fantasia = models.CharField(max_length=120, null=True, blank=True)
-    cpf_cnpj = models.CharField(max_length=18)
+    cpf_cnpj = models.CharField(max_length=18, null=True, blank=True)
     contato = models.CharField(max_length=50)
     telefone_1 = models.CharField(max_length=30)
     telefone_2 = models.CharField(max_length=30, null=True, blank=True)
     email = models.CharField(max_length=120, null=True, blank=True)
+    status = models.CharField(
+        max_length=15,
+        choices=StatusEnum.choices,
+        default=StatusEnum.PENDENTE
+        )
     endereco = models.OneToOneField(Endereco, on_delete=models.CASCADE)
     ambiente = models.OneToOneField(Ambiente, on_delete=models.CASCADE)
