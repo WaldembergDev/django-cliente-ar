@@ -125,3 +125,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Personalizando o usuário do django
+AUTH_USER_MODEL = 'usuario.Usuario'
