@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}Cadastro cliente{% endblock %}
 {% block content %}
-
+    <div class="container">
+        <h1>Formulário de Cadastro</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <legend>Dados do Cliente</legend>
+            {{ cliente_form.as_p }}
+            <legend>Dados de Endereço</legend>
+            {{ endereco_form.as_p }}
+            <legend>Dados de Ambiente</legend>
+            {{ ambiente_form.as_p }}
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
 {% endblock %}

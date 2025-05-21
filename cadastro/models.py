@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.core.validators import MinValueValidator
 
@@ -8,6 +9,7 @@ class StatusEnum(models.TextChoices):
 
 
 class Endereco(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cep = models.CharField(max_length=9, null=True, blank=True)
     logradouro = models.CharField(max_length=120)
     numero = models.CharField(max_length=10)
@@ -16,13 +18,15 @@ class Endereco(models.Model):
     municipio = models.CharField(max_length=30)
     
 class Ambiente(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     possui_ar_condicionado = models.BooleanField()
     area = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     quantidade_maquinas = models.IntegerField(validators=[MinValueValidator(1)])
-    observacoes = models.TextField()
+    observacoes = models.TextField(null=True, blank=True)
 
 # Create your models here.
 class Cliente(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nome_razao_social = models.CharField(max_length=120)
     nome_fantasia = models.CharField(max_length=120, null=True, blank=True)
     cpf_cnpj = models.CharField(max_length=18, null=True, blank=True)
@@ -37,3 +41,4 @@ class Cliente(models.Model):
         )
     endereco = models.OneToOneField(Endereco, on_delete=models.CASCADE)
     ambiente = models.OneToOneField(Ambiente, on_delete=models.CASCADE)
+    
