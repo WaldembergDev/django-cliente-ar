@@ -1,3 +1,29 @@
 from django.db import models
+from django.core.validators import MinValueValidator
+
+
+class Endereco(models.Model):
+    cep = models.CharField(max_length=9)
+    logradouro = models.CharField(max_length=120)
+    numero = models.CharField(max_length=10)
+    complemento = models.CharField(max_length=30, null=True, blank=True)
+    bairro = models.CharField(max_length=30)
+    municipio = models.CharField(max_length=30)
+    
+class Ambiente(models.Model):
+    possui_ar_condicionado = models.BooleanField()
+    area = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    quantidade_maquinas = models.IntegerField(validators=[MinValueValidator(1)])
+    observacoes = models.TextField()
 
 # Create your models here.
+class Cliente(models.Model):
+    nome_razao_social = models.CharField(max_length=120)
+    nome_fantasia = models.CharField(max_length=120, null=True, blank=True)
+    cpf_cnpj = models.CharField(max_length=18)
+    contato = models.CharField(max_length=50)
+    telefone_1 = models.CharField(max_length=30)
+    telefone_2 = models.CharField(max_length=30, null=True, blank=True)
+    email = models.CharField(max_length=120, null=True, blank=True)
+    endereco = models.OneToOneField(Endereco, on_delete=models.CASCADE)
+    ambiente = models.OneToOneField(Ambiente, on_delete=models.CASCADE)
