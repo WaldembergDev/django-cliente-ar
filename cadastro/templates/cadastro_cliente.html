@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="{% static 'cadastro/css/style.css' %}">
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container p-5">
         <h1 class="text-center">Formulário de Cadastro</h1>
-        <form action="{% url 'cadastro_cliente' %}" method="POST">
+        <form action="{% url 'cadastro_cliente' %}" method="POST" class="d-flex flex-column gap-3">
             {% csrf_token %}
             <legend>Dados do Cliente</legend>
             {{ cliente_form }}
@@ -17,6 +17,13 @@
             {{ ambiente_form }}
             <input type="submit" class="btn btn-primary">
         </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}} mt-3" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
     <script src="{% static 'cadastro/js/busca_cnpj.js' %}"></script>
 {% endblock %}

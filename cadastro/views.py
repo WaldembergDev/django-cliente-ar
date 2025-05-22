@@ -1,6 +1,10 @@
+from multiprocessing import context
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.contrib.messages import constants
+from django.contrib import messages
 
+from cadastro.models import Cliente
 from cadastro.service import obter_dados_cnpj
 from .form import ClienteForm, AmbienteForm, EnderecoForm
 
@@ -37,6 +41,8 @@ def cadastro_cliente(request):
                 'endereco_form': endereco_form,
                 'ambiente_form': ambiente_form,
             }
+            messages.add_message(request, constants.SUCCESS, 'O contato foi salvo com sucesso!')
+            return redirect('/cadastro/cadastro_cliente')
         return render(request, 'cadastro_cliente.html', context=context)
 
 def consulta_cnpj(request):
@@ -47,4 +53,12 @@ def consulta_cnpj(request):
     if dados:
         return JsonResponse(dados)
     return JsonResponse({'erro': 'CNPJ inválido ou não encontrado'}, status=404)
+
+
+def lista_cadastros(request):
+    cadastros = Cliente.objects.all()
+    context = {
+        'cadastros': cadastros
+    }
+    return render(request, 'lista_cadastros.html', context=context)
             

@@ -41,4 +41,7 @@ class Cliente(models.Model):
         )
     endereco = models.OneToOneField(Endereco, on_delete=models.CASCADE)
     ambiente = models.OneToOneField(Ambiente, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nome_razao_social
     
