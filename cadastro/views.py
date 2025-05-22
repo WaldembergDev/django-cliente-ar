@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+
+from cadastro.service import obter_dados_cnpj
 from .form import ClienteForm, AmbienteForm, EnderecoForm
 
 # Create your views here.
@@ -26,6 +28,23 @@ def cadastro_cliente(request):
             cliente.endereco = endereco
             cliente.ambiente = ambiente
             cliente.save()
-            return HttpResponse('Formulário criado com sucesso!')
+            # limpando o formulário após salvar os dados
+            endereco_form = EnderecoForm()
+            ambiente_form = AmbienteForm()
+            cliente_form = ClienteForm()
+            context = {
+                'cliente_form': cliente_form,
+                'endereco_form': endereco_form,
+                'ambiente_form': ambiente_form,
+            }
         return render(request, 'cadastro_cliente.html', context=context)
+
+def consulta_cnpj(request):
+    cnpj = request.GET.get('cnpj')
+    if not cnpj:
+        return JsonResponse({'erro': 'CNPJ não informado'}, status=400)
+    dados = obter_dados_cnpj(cnpj)
+    if dados:
+        return JsonResponse(dados)
+    return JsonResponse({'erro': 'CNPJ inválido ou não encontrado'}, status=404)
             

@@ -45,3 +45,4 @@ def obter_dados_cnpj(cnpj: str):
         return dados_resultado
     except Exception as e:
         print(f'Erro gerado: {e}')
+        return None

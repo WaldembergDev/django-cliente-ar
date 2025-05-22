@@ -10,7 +10,7 @@ class StatusEnum(models.TextChoices):
 
 class Endereco(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cep = models.CharField(max_length=9, null=True, blank=True)
+    cep = models.CharField(max_length=10, null=True, blank=True)
     logradouro = models.CharField(max_length=120)
     numero = models.CharField(max_length=10)
     complemento = models.CharField(max_length=30, null=True, blank=True)
@@ -31,7 +31,7 @@ class Cliente(models.Model):
     nome_fantasia = models.CharField(max_length=120, null=True, blank=True)
     cpf_cnpj = models.CharField(max_length=18, null=True, blank=True)
     contato = models.CharField(max_length=50)
-    telefone_1 = models.CharField(max_length=30)
+    telefone_1 = models.CharField(max_length=40)
     telefone_2 = models.CharField(max_length=30, null=True, blank=True)
     email = models.CharField(max_length=120, null=True, blank=True)
     status = models.CharField(
