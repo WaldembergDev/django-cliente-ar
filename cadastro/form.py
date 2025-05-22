@@ -4,7 +4,15 @@ from .models import Cliente, Ambiente, Endereco
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = '__all__'
+        fields = [
+            'cpf_cnpj',
+            'nome_razao_social',
+            'nome_fantasia',
+            'contato',
+            'email',
+            'telefone_1', 
+            'telefone_2',
+            ]
         exclude = ['status', 'endereco', 'ambiente']
         labels = {
             'nome_razao_social': 'Nome / Razão Social',
@@ -20,6 +28,10 @@ class AmbienteForm(forms.ModelForm):
     class Meta:
         model = Ambiente
         fields = '__all__'
+        labels = {
+            'area': 'Área (m²)',
+            'quantidade_maquinas': 'Quantidade de máquinas (un)'
+        }
 
     
     def __init__(self, *args, **kwargs):
@@ -34,7 +46,7 @@ class EnderecoForm(forms.ModelForm):
     class Meta:
         model = Endereco
         fields = '__all__'
-        label = {
+        labels = {
             'cep': 'CEP'
         }
     
