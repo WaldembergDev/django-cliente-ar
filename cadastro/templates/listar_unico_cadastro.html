@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container p-3">
+        <h1>Dados do Cliente</h1>
+        <form action="." method="POST" class="d-flex flex-column gap-3">
+            <legend>Dados do Cliente</legend>
+            {{cadastro}}
+            <legend>Dados do Endereço</legend>
+            {{endereco}}
+            <legend>Dados do Ambiente</legend>
+            {{ambiente}}
+            <input type="submit" value="atualizar dados" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}

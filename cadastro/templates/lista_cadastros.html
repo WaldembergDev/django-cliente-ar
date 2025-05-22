@@ -16,7 +16,7 @@
                 {% for cadastro in cadastros %}
                 <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{cadastro}}</td>
+                <td><a href="{% url 'listar_unico_cadastro' cadastro.id %}">{{cadastro}}</a></td>
                 <td>{{cadastro.cpf_cnpj}}</td>
                 <td class="d-none d-sm-table-cell">{{cadastro.telefone_1}}</td>
                 </tr>
