@@ -1,16 +1,53 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="container p-3">
-        <h1>Dados do Cliente</h1>
-        <form action="." method="POST" class="d-flex flex-column gap-3">
-            <legend>Dados do Cliente</legend>
-            {{cadastro}}
-            <legend>Dados do Endereço</legend>
-            {{endereco}}
-            <legend>Dados do Ambiente</legend>
-            {{ambiente}}
-            <input type="submit" value="atualizar dados" class="btn btn-primary">
-        </form>
-    </div>
+<div class="container py-5">
+    <h2 class="text-center mb-4">Visualizar / Editar Cadastro</h2>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <strong>Dados do Cliente</strong>
+            </div>
+            <div class="card-body">
+                {{ cadastro.as_p }}
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <strong>Endereço</strong>
+            </div>
+            <div class="card-body">
+                {{ endereco.as_p }}
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <strong>Ambiente</strong>
+            </div>
+            <div class="card-body">
+                {{ ambiente.as_p }}
+            </div>
+        </div>
+
+        <div class="text-end">
+            <input type="submit" value="Atualizar dados" class="btn btn-primary">
+        </div>
+    </form>
+
+    {% if messages %}
+        <div class="mt-3">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
 {% endblock %}
+

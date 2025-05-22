@@ -63,8 +63,8 @@ def lista_cadastros(request):
     return render(request, 'lista_cadastros.html', context=context)
 
 def listar_unico_cadastro(request, id):
-    if request.method == 'GET':
-        cadastro = Cliente.objects.filter(id = id).first()
+    cadastro = Cliente.objects.filter(id = id).first()
+    if request.method == 'GET':        
         cliente_form = ClienteForm(instance = cadastro)
         endereco_form = EnderecoForm(instance = cadastro.endereco)
         ambiente_form = AmbienteForm(instance = cadastro.ambiente)
@@ -75,9 +75,9 @@ def listar_unico_cadastro(request, id):
         }
         return render(request, 'listar_unico_cadastro.html', context=context)
     else:
-        endereco_form = EnderecoForm(request.POST)
-        ambiente_form = AmbienteForm(request.POST)
-        cliente_form = ClienteForm(request.POST)
+        cliente_form = ClienteForm(request.POST, instance=cadastro)
+        endereco_form = EnderecoForm(request.POST, instance=cadastro.endereco)
+        ambiente_form = AmbienteForm(request.POST, instance=cadastro.ambiente)        
         context = {
             'cliente_form': cliente_form,
             'ambiente_form': ambiente_form,
@@ -86,10 +86,7 @@ def listar_unico_cadastro(request, id):
         if endereco_form.is_valid() and ambiente_form.is_valid() and cliente_form.is_valid():
             endereco = endereco_form.save()
             ambiente = ambiente_form.save()
-            cliente = cliente_form.save(commit=False)
-            cliente.endereco = endereco
-            cliente.ambiente = ambiente
-            cliente.save()
+            cliente = cliente_form.save()
             # limpando o formulário após salvar os dados
             endereco_form = EnderecoForm()
             ambiente_form = AmbienteForm()

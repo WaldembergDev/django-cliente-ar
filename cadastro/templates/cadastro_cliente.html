@@ -7,16 +7,41 @@
 {% block content %}
     <div class="container p-5">
         <h1 class="text-center">Formulário de Cadastro</h1>
-        <form action="{% url 'cadastro_cliente' %}" method="POST" class="d-flex flex-column gap-3">
+        <form action="{% url 'cadastro_cliente' %}" method="POST">
             {% csrf_token %}
-            <legend>Dados do Cliente</legend>
-            {{ cliente_form }}
-            <legend>Dados de Endereço</legend>
-            {{ endereco_form }}
-            <legend>Dados de Ambiente</legend>
-            {{ ambiente_form }}
-            <input type="submit" class="btn btn-primary" value="Cadastrar">
+        
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <strong>Dados do Cliente</strong>
+                </div>
+                <div class="card-body">
+                    {{ cliente_form.as_p }}
+                </div>
+            </div>
+        
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <strong>Endereço</strong>
+                </div>
+                <div class="card-body">
+                    {{ endereco_form.as_p }}
+                </div>
+            </div>
+        
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <strong>Ambiente</strong>
+                </div>
+                <div class="card-body">
+                    {{ ambiente_form.as_p }}
+                </div>
+            </div>
+        
+            <div class="text-end">
+                <input type="submit" class="btn btn-primary" value="Cadastrar">
+            </div>
         </form>
+        
         {% if messages %}
             {% for message in messages %}
                 <div class="alert {{message.tags}} mt-3" role="alert">
