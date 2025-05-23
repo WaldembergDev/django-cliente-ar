@@ -12,7 +12,9 @@
                 <strong>Dados do Cliente</strong>
             </div>
             <div class="card-body">
-                {{ cadastro.as_p }}
+                {{ cadastro_form.as_p }}
+                <label>Data de cadastro:</label>
+                <input type="text" class="form-control" value="{{ cadastro.data_cadastro }}" disabled>
             </div>
         </div>
 
@@ -21,7 +23,7 @@
                 <strong>Endereço</strong>
             </div>
             <div class="card-body">
-                {{ endereco.as_p }}
+                {{ endereco_form.as_p }}
             </div>
         </div>
 
@@ -30,7 +32,7 @@
                 <strong>Ambiente</strong>
             </div>
             <div class="card-body">
-                {{ ambiente.as_p }}
+                {{ ambiente_form.as_p }}
             </div>
         </div>
 

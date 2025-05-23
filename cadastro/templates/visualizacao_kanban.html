@@ -1,42 +1,61 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Visualização Kanban{% endblock %}
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'cadastro/css/style.css' %}">
 {% endblock %}
 {% block content %}
-    <main class="kanban">
-        <div class="kanban-column">
-            <div class="kanban-title">
-                <h2>Pendente</h2>
-                <button class="add-card">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
+<div class="container p-5">
+    <h1 class="text-center">Kanban</h1>
+    <div class="kanban-wrapper d-flex justify-content-center">
+        <div class="kanban d-flex gap-4">
+            <div class="coluna" ondrop="soltar(event, 'Pendente')" ondragover="permitirSoltar(event)">
+                <h3 class="text-center">Pendente</h3>
+                {% for cliente in pendentes %}
+                    <a href="{% url 'listar_unico_cadastro' cliente.id %}" 
+                       class="cartao" 
+                       draggable="true" 
+                       ondragstart="arrastar(event)" 
+                       data-id="{{ cliente.id }}">
+                        {{ cliente.nome_razao_social }}
+                    </a>
+                {% endfor %}
             </div>
-            <div class="kanban-cards">
-                <div class="kanban-card">
-                    <div class="bagde high">
-                        <span>Alta prioridade</span>
-                    </div>
-                    <p class="card-title">
-                        Revisar documento do projeto
-                    </p>
-                    <div class="card-infos">
-                        <div class="card-icons">
-                            <p>
-                                <i class="fa-regular fa-comment"></i>
-                                1
-                            <p>
-                                <p>
-                                <i class="fa-solid fa-paperclip"></i>
-                                1
-                            <p>
-                        </div>
-                        <div class="user">
-                            <img src="" alt="">
-                        </div>
-                    </div>
-                </div>
+
+            <div class="coluna" ondrop="soltar(event, 'Andamento')" ondragover="permitirSoltar(event)">
+                <h3 class="text-center">Andamento</h3>
+                {% for cliente in andamento %}
+                    <a href="{% url 'listar_unico_cadastro' cliente.id %}" 
+                       class="cartao" 
+                       draggable="true" 
+                       ondragstart="arrastar(event)" 
+                       data-id="{{ cliente.id }}">
+                        {{ cliente.nome_razao_social }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="coluna" ondrop="soltar(event, 'Concluido')" ondragover="permitirSoltar(event)">
+                <h3 class="text-center">Concluído</h3>
+                {% for cliente in concluidos %}
+                    <a href="{% url 'listar_unico_cadastro' cliente.id %}" 
+                       class="cartao" 
+                       draggable="true" 
+                       ondragstart="arrastar(event)" 
+                       data-id="{{ cliente.id }}">
+                        {{ cliente.nome_razao_social }}
+                    </a>
+                {% endfor %}
             </div>
         </div>
-    </main>
+    </div>
+</div>
+
+<!-- Javascript -->
+<script>
+    const atualizarStatusUrl = "{% url 'atualizar_status' %}";
+    const csrfToken = "{{ csrf_token }}";
+</script>
+<script src="{% static 'cadastro/js/script.js' %}"></script>
 {% endblock %}

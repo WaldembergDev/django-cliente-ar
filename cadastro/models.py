@@ -34,6 +34,7 @@ class Cliente(models.Model):
     telefone_1 = models.CharField(max_length=40)
     telefone_2 = models.CharField(max_length=30, null=True, blank=True)
     email = models.CharField(max_length=120, null=True, blank=True)
+    data_cadastro = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=15,
         choices=StatusEnum.choices,

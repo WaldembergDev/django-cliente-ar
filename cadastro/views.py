@@ -4,9 +4,12 @@ from django.shortcuts import redirect, render
 from django.contrib.messages import constants
 from django.contrib import messages
 
-from cadastro.models import Cliente
+from cadastro.models import Cliente, StatusEnum
 from cadastro.service import obter_dados_cnpj
 from .form import ClienteForm, AmbienteForm, EnderecoForm
+from django.views.decorators.http import require_POST
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def cadastro_cliente(request):
@@ -69,9 +72,10 @@ def listar_unico_cadastro(request, id):
         endereco_form = EnderecoForm(instance = cadastro.endereco)
         ambiente_form = AmbienteForm(instance = cadastro.ambiente)
         context = {
-            'cadastro': cliente_form,
-            'endereco': endereco_form,
-            'ambiente': ambiente_form
+            'cadastro_form': cliente_form,
+            'endereco_form': endereco_form,
+            'ambiente_form': ambiente_form,
+            'cadastro': cadastro
         }
         return render(request, 'listar_unico_cadastro.html', context=context)
     else:
@@ -101,9 +105,28 @@ def listar_unico_cadastro(request, id):
 
 
 def visualizacao_kanban(request):
-    cadastros = Cliente.objects.all()
+    pendentes = Cliente.objects.filter(status=StatusEnum.PENDENTE)
+    andamento = Cliente.objects.filter(status=StatusEnum.ANDAMENTO)
+    concluidos = Cliente.objects.filter(status=StatusEnum.CONCLUIDO)
+
     context = {
-        'cadastros': cadastros
+        'pendentes': pendentes,
+        'andamento': andamento,
+        'concluidos': concluidos,
     }
-    return render(request, 'visualizacao_kanban.html', context=context)
-         
+    return render(request, 'visualizacao_kanban.html', context)
+
+@csrf_exempt
+@require_POST
+def atualizar_status(request):
+    data = json.loads(request.body)
+    cliente_id = data.get('id')
+    novo_status = data.get('status')
+
+    try:
+        cliente = Cliente.objects.get(id=cliente_id)
+        cliente.status = novo_status
+        cliente.save()
+        return JsonResponse({'success': True})
+    except Cliente.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Cliente não encontrado'})

@@ -1,3 +1,36 @@
-body{
-    background-color: azure;
+.kanban-wrapper {
+    overflow-x: auto;
+}
+
+.kanban {
+    display: flex;
+    gap: 1rem;
+    min-width: max-content;
+}
+
+.coluna {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 300px;
+    min-height: 400px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* impede que a coluna fique menor que 300px */
+}
+
+.cartao {
+    display: block;
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: grab;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+}
+
+.cartao:hover {
+    background: #f1f1f1;
 }
