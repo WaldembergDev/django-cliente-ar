@@ -98,7 +98,12 @@ def listar_unico_cadastro(request, id):
             }
             messages.add_message(request, constants.SUCCESS, 'O contato foi atualizado com sucesso!')
             return redirect('listar_unico_cadastro', id=cliente.id)
-        
-        
 
-        
+
+def visualizacao_kanban(request):
+    cadastros = Cliente.objects.all()
+    context = {
+        'cadastros': cadastros
+    }
+    return render(request, 'visualizacao_kanban.html', context=context)
+         
