@@ -10,13 +10,20 @@
             <h1><i class="bi bi-person-circle"></i></h1>
             <div class="mb-3">
                 <label for="InputLogin" class="form-label">Login</label>
-                <input name="login" type="text" class="form-control" id="InputLogin">
+                <input name="login" type="text" class="form-control" id="InputLogin" required>
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Senha</label>
-                <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+                <label for="InputPassword1" class="form-label">Senha</label>
+                <input name="password" type="password" class="form-control" id="InputPassword1" required>
             </div>
             <button type="submit" class="btn btn-primary">Logar</button>
         </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}} mt-3" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>    
 {% endblock %}
