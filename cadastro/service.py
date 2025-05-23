@@ -7,13 +7,13 @@ load_dotenv()
 
 def obter_dados_cnpj(cnpj: str):
 
-    result = requests.get(f'https://receitaws.com.br/v1/cnpj/{cnpj}')
+    result = requests.get(f'https://brasilapi.com.br/api/cnpj/v1/{cnpj}')
 
     try:
         result.raise_for_status()
         dados = result.json()
         # razao social
-        razao_social = dados.get('nome')
+        razao_social = dados.get('razao_social')
         # cep
         cep = dados.get('cep')
         # logradouro
@@ -27,7 +27,7 @@ def obter_dados_cnpj(cnpj: str):
         # municipio
         municipio = dados.get('municipio')
         # telefone
-        telefone = dados.get('telefone')
+        telefone = dados.get('ddd_telefone_1')
         # email
         email = dados.get('email')
         # dicionario resultados
@@ -42,7 +42,7 @@ def obter_dados_cnpj(cnpj: str):
             'telefone': telefone,
             'email': email
         }
-        return dados_resultado
+        return dados
     except Exception as e:
         print(f'Erro gerado: {e}')
         return None
