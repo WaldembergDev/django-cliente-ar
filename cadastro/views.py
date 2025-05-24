@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from multiprocessing import context
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -12,6 +13,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+@login_required(login_url='/usuario/login')
 def cadastro_cliente(request):
     if request.method == 'GET':
         endereco_form = EnderecoForm()
@@ -48,6 +50,7 @@ def cadastro_cliente(request):
             return redirect('/cadastro/cadastro_cliente')
         return render(request, 'cadastro_cliente.html', context=context)
 
+
 def consulta_cnpj(request):
     cnpj = request.GET.get('cnpj')
     if not cnpj:
@@ -57,7 +60,7 @@ def consulta_cnpj(request):
         return JsonResponse(dados)
     return JsonResponse({'erro': 'CNPJ inválido ou não encontrado'}, status=404)
 
-
+@login_required(login_url='/usuario/login')
 def lista_cadastros(request):
     cadastros = Cliente.objects.all()
     context = {
@@ -65,6 +68,7 @@ def lista_cadastros(request):
     }
     return render(request, 'lista_cadastros.html', context=context)
 
+@login_required(login_url='/usuario/login')
 def listar_unico_cadastro(request, id):
     cadastro = Cliente.objects.filter(id = id).first()
     if request.method == 'GET':        
@@ -103,7 +107,7 @@ def listar_unico_cadastro(request, id):
             messages.add_message(request, constants.SUCCESS, 'O contato foi atualizado com sucesso!')
             return redirect('listar_unico_cadastro', id=cliente.id)
 
-
+@login_required(login_url='/usuario/login')
 def visualizacao_kanban(request):
     pendentes = Cliente.objects.filter(status=StatusEnum.PENDENTE)
     andamento = Cliente.objects.filter(status=StatusEnum.ANDAMENTO)
