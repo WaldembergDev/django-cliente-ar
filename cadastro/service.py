@@ -42,7 +42,7 @@ def obter_dados_cnpj(cnpj: str):
             'telefone': telefone,
             'email': email
         }
-        return dados
+        return dados_resultado
     except Exception as e:
         print(f'Erro gerado: {e}')
         return None
